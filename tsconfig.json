@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"module": "ES2020",
+		"target": "ES2020",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"noEmit": true,
+		"lib": ["ES2020"],
+		"resolveJsonModule": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"removeComments": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitAny": false,
+		"noFallthroughCasesInSwitch": true,
+		"types": ["@edgeone/ef-types"]
+	},
+	"include": ["src/global.d.ts", "src/**/*"],
+	"exclude": ["node_modules"]
+}
