@@ -45,6 +45,8 @@ console.log(2);
       oConsole.log('After original console.log');
     },
   });
+
+  oConsole = null;
 })();
 
 console.log(2);
@@ -57,7 +59,7 @@ console.log(2);
 ### Before Hook Function 运行在主函数之前
 
 - 参数：参数与主函数相同；
-- 返回：返回一个数组，数组的内容保持跟函数的参数列表一致，将会作为下一个 Before Hook 或者主函数运行的参数；
+- 返回：返回一个数组，数组的内容保持跟函数的参数列表一致，作为下一个 Before Hook 或主函数的调用参数；
 
 ### After Hook Function 运行在主函数之后
 
