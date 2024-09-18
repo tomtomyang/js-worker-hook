@@ -1,7 +1,7 @@
 {
-  "name": "ts-hook",
+  "name": "js-worker-hook",
   "version": "0.1.0",
-  "description": "JS Runtime Hook TypeScript Edition",
+  "description": "JS Worker Hook TypeScript Edition",
   "author": "tomtomyang@tencent.com",
   "license": "UNLICENSED",
   "main": "dist/hook.js",
