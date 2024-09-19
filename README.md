@@ -22,10 +22,9 @@ console.log = function () {
 
 console.log(1);
 console.log(2);
-
 ```
 
-通过重新定义 `console.log`  函数，实现了在执行 `console.log(1)` 前后执行自定义逻辑，但是这样的实现存在以下问题：
+通过重新定义 `console.log` 函数，实现了在执行 `console.log(1)` 前后执行自定义逻辑，但是这样的实现存在以下问题：
 
 1. **全局污染**：在全局作用域中直接修改 `console.log`，影响到所有使用 `console.log` 的地方，如 `console.log(2)`；
 2. **临时方法暴露**：临时创建的 `oConsoleLog` 方法未经保护，容易被外部环境误用或再次修改，导致不可预见的行为；
@@ -45,7 +44,6 @@ console.log(2);
 });
 
 console.log(2);
-
 ```
 
 如果需要支持更复杂的 Before、After 逻辑插入，可以进一步修改为双层 IIFE 的形式：
@@ -86,7 +84,6 @@ console.log(2);
 
 console.log(2);
 
-
 // 写法 2
 (function (console) {
   console.log(1);
@@ -123,10 +120,9 @@ console.log(2);
 );
 
 console.log(2);
-
 ```
 
-上面的写法存在另一个执行效率的问题，即每次都需要执行 Hook 队列初始化，`console.log` 函数重写等操作。
+上面的写法存在另一个执行效率的问题，即每次都需要执行 Hook 队列初始化，`console.log` 函数重写等操作：
 
 ```js
 // 对于 console.log(1)
@@ -200,7 +196,6 @@ console.log(2);
 );
 
 console.log(3);
-
 ```
 
 每当我想要添加运行时 Hook 时，都需要创建一次双重的 IIFE 执行上下文，如上文所说，这是为了解决全局污染与临时方法暴露的问题。可见执行效率和隔离性其实是互斥的，如果要解决执行效率的问题，就必须修改对全局函数下手：
@@ -244,7 +239,6 @@ console.log(3);
 );
 
 console.log(3);
-
 ```
 
 这样的写法可以解决 Hook 逻辑被重复执行的问题，且不会暴露临时方法，但是会导致全局的 `console.log` 被修改。在使用时要根据实际需求，在隔离性和执行效率之间做好权衡。
@@ -253,12 +247,14 @@ console.log(3);
 
 将 Hook 设计为队列调用的形式，队列中的每一个 Hook 都是一个函数，可以在 Hook 函数中执行一些同步或异步操作。对于一个主函数，有 Before / After 两类 Hook 函数：
 
-### Before Hook Function 运行在主函数之前
+### Before Hook Function
 
+- 执行：在主函数执行前调用；
 - 参数：参数与主函数相同；
 - 返回：返回一个数组，数组的内容保持跟函数的参数列表一致，将会作为下一个 Before Hook 或者主函数运行的参数；
 
-### After Hook Function 运行在主函数之后
+### After Hook Function
 
+- 执行：在主函数执行后调用；
 - 参数：参数主函数的返回值；
 - 返回：返回一个数组，数组的内容保持与钩子的参数列表相同，作为下一个 After Hook 的调用参数；
